@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+project( openCVGL )
+find_package( OpenCV REQUIRED )
+find_package( OpenGL REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( openCVGL openCVGL.cpp )
+target_link_libraries( openCVGL ${OpenCV_LIBS} ${OpenGL_LIBS} )

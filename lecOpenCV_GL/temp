@@ -1,0 +1,17 @@
+/*------------------------------------------------------* 
+ * Program: openCVGL.cpp;         Date: March 2016;     *
+ * Purpose:                                             *
+ *   Demo for OpenCV and OpenGL applicatons.            *
+ * Reference:                                           * 
+ *   Skeleton Code for CS290I by                        *   
+ *   Jon Ventura and Chris Sweeney.                     * 
+ *------------------------------------------------------*/
+// For OpenCV 2.X use this import statement: 
+//#include <opencv/cv.h>
+
+/* 
+gcc -ggdb `pkg-config --cflags opencv` -o `basename test.c .c` test.c `pkg-config --libs opencv` -lGL -lGLU -lglut -lm 
+*/
+
+#include <opencv2/opencv.hpp>   //for OpenCV 3.x  
+#include <opencv/highgui.h>     //for OpenCV 3.x  
