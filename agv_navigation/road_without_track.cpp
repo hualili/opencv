@@ -149,11 +149,13 @@ void road_without_track::agv_track_detection(Mat &img)
 	vector<Point> central_points;
 	for (int i = 0; i < img.cols * 0.35; i++) {
 		left_curve_points.push_back(Point(i, left_curve[0] + left_curve[1] * i + left_curve[2] * i * i));
-		right_curve_points.push_back(Point(img.cols - 1 - i, right_curve[0] + right_curve[1] * i + right_curve[2] * i * i));
+		right_curve_points.push_back(Point(img.cols - 1 - i, right_curve[0] + 
+						   right_curve[1] * i + right_curve[2] * i * i));
 	}
 
 
-	int y_i = max(left_curve_points[(int)left_curve_points.size() - 1].y, right_curve_points[(int)right_curve_points.size() - 1].y);
+	int y_i = max(left_curve_points[(int)left_curve_points.size() - 1].y, 
+		      right_curve_points[(int)right_curve_points.size() - 1].y);
 	int y_r = min(left_curve_points[0].y, right_curve_points[0].y);
 	int y_m = (y_i + y_r) / 2;
 	int x_i_l = -1, x_m_l = -1, x_r_l = -1;
@@ -210,11 +212,13 @@ void road_without_track::agv_track_detection(Mat &img)
 			track = central_line;
 		}
 		for (int i = (x_m_l + x_m_r) / 2;i < img.cols; i++) {
-			if ((track.first * i + track.second) >= img.rows || (track.first * i + track.second) < y_i) break;
+			if ((track.first * i + track.second) >= img.rows || 
+			    (track.first * i + track.second) < y_i) break;
 			central_curve_points.push_back(Point(i, track.first * i + track.second));
 		}
 		for (int i = (x_m_l + x_m_r) / 2 - 1;i >= 0; i--) {
-			if ((track.first * i + track.second) >= img.rows || (track.first * i + track.second) < y_i) break;
+			if ((track.first * i + track.second) >= img.rows || 
+			    (track.first * i + track.second) < y_i) break;
 			central_curve_points.insert(central_curve_points.begin(), Point(i, track.first * i + track.second));
 		}
 		
@@ -336,7 +340,8 @@ vector<double> road_without_track::agv_quadratic_regression(const vector<Point>&
 void road_without_track::agv_reject_outliers(vector<Point>& points)
 {
 	for (unsigned int i = 1; (i + 1) < points.size(); i++) {
-		if ((points[i].y > points[i - 1].y && points[i].y > points[i + 1].y) || (points[i].y < points[i - 1].y && points[i].y < points[i + 1].y)) {
+		if ((points[i].y > points[i - 1].y && points[i].y > points[i + 1].y) || 
+		    (points[i].y < points[i - 1].y && points[i].y < points[i + 1].y)) {
 			points.erase(points.begin() + i);
 			i--;
 		}
