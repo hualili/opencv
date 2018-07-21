@@ -57,7 +57,7 @@ int main( int, char** argv )
 
         frame_tmp = frame;  
 
-	for (int i=0; i < 2; i++) {  
+	for (int i=0; i < 1; i++) {  
         pyrDown( frame_tmp, frame_down, Size( frame_tmp.cols/2, frame_tmp.rows/2 ) );//  to 1/4 
 	pyrDown( frame_down, frame_tmp, Size( frame_down.cols/2, frame_down.rows/2 ) ); // to 1/16 
         }	
@@ -107,8 +107,6 @@ int main( int, char** argv )
           }
   
 	//cv::Moments mom = cv::moments(contours[0]); 
-	
-
 
 	//x-bar and y-bar 
   	vector<Point2f> mc( contours.size() );
