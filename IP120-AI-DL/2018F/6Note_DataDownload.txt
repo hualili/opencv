@@ -1,0 +1,12 @@
+https://github.com/sdcubber/keras-training-serving/blob/master/training-and-serving-with-tf-keras.ipynb
+https://github.com/Kaggle/kaggle-api#api-credentials
+
+To download train-jpg.tar.7z from kaggle:
+Step 1: create kaggle account: https://www.kaggle.com
+Step 2: go to kaggle account, select Create API token
+Step 3: copy the token to /home/.kaggle/
+Step 4: go to https://www.kaggle.com/c/planet-understanding-the-amazon-from-space/rules
+Step 5: accept the rules
+Step 6: run
+	sudo python3 kagglecredential.py
+	sudo python3 import.py
