@@ -1,0 +1,299 @@
+\documentclass[conference]{IEEEtran} 
+
+%2019 hl ref: https://en.wikibooks.org/wiki/LaTeX/Mathematics#Matrices_and_arrays
+\ifCLASSINFOpdf
+  % \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at: 
+% http://www.ctan.org/pkg/graphicx
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/pkg/epslatex
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+%\usepackage{amsmath} 
+%HL 2018-1-21: not sure if IEEE accepts this
+
+\usepackage{graphicx}
+\graphicspath{images/}
+%HL 2018-1-21　add this image folder
+
+
+\begin{document}
+
+\title{Lecture Note 1 on Gradient Descent}
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{
+\IEEEauthorblockN{Harry Li, Ph.D.}
+\IEEEauthorblockA{Department of Computer Engineering, College of Engineering\\
+San Jose State University, San Jose, CA 95192, USA\\
+Email$^{\dagger}$: harry.li@ctione.com\\}
+}
+
+% make the title area
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract
+\begin{abstract}
+In this lecture note, we give a gradient descent
+example for its applications 
+in Neural Networks (NN), e.g., the concept of 
+the negative gradient -$\nabla f$ follows
+the direction of steepest descent. 
+\end{abstract}
+
+% no keywords
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+\section{Introduction}
+%Section 1
+% no \IEEEPARstart　
+ 
+In this lecture note, we give a gradient descent
+example for Neural Networks (NN) applications. 
+In particular, the basic concept of the 
+negative gradient -$\nabla f$ follows
+the direction of steepest descent of a given 
+function $f$ which can be an error function.  
+% You must have at least 2 lines in the paragraph with the drop letter
+% (should never be an issue)　
+
+%\hfill mds
+ 
+%\hfill August 26, 2015
+
+\section{Partial Derivative vs. Gradient}
+%Section 2
+
+Given a scalar-valued multivariable functions,
+e.g. the function with a multidimensional input
+$x_1, x_2, ..., x_n$, and 
+a one-dimensional output as 
+$y=f(x_1, x_2, ..., x_)$, where 
+$f : R^n \to R$. The partial 
+derivative of $f(x_1, x_2, ..., x_n)$ with respect
+to $x_i$ for $i=1,2,...,n$: 
+
+\begin{equation}
+\frac{ \partial f } { \partial x_i } = 
+\lim_{\delta x\to 0} 
+\frac{ f(x_1,.., x_i + \delta x_i, .., x_n) 
+- f(x_1,..., x_i, ..., x_n)} 
+{ \delta x_i }
+\end{equation}
+The gradient of the function $\nabla f$,
+is the collection of all its partial derivatives into 
+a vector form, e.g., vector valued function [1]. 
+
+\begin{equation}
+\nabla f =  
+\left(\begin{array}{c} 
+\frac{ \partial f} { \partial x_1 } \\ 
+\frac{ \partial f} { \partial x_2 } \\
+... \\
+\frac{ \partial f} { \partial x_i } \\
+... \\
+\frac{ \partial f} { \partial x_n } 
+\end{array}\right)
+\end{equation}
+Suppose standing on a surface of 
+$f(x_1, x_2, ..., x_n)$ at a point 
+$(x_1, x_2, ..., x_n)$, 
+$\nabla f$ tells you which direction to 
+travel to increase the value of $f$ most rapidly.
+Hence, we make the following claim. 
+
+\textbf{Claim 1.} 
+\textit{The negative gradient -$\nabla f$ follows
+the direction of steepest descent [2].}
+
+\section{Gradient Example}
+
+Example 1. Given 
+
+\begin{equation}
+y = f(x_1,x_2) = x_1^2 + x_1 x_2  
+\end{equation}
+Find its gradiant as follows [1]: 
+
+\begin{equation}
+\nabla f =  
+\left(\begin{array}{c} 
+\frac{ \partial f} { \partial x_1 } \\ 
+\frac{ \partial f} { \partial x_2 } 
+\end{array}\right)
+= 
+\left(\begin{array}{c} 
+2 x_1 + x_2  \\ 
+  x_1 
+\end{array}\right)
+\end{equation}
+
+\section{Gredient Steepest Descent for Minimization}
+
+Now, let's define $f$ as an error function, and
+we would like to minimize it. So we can try to 
+change its inputs $(x_1,x_2)$ by iteration steps: 
+
+\begin{equation}
+(x_1^{k+1}, x_2^{k+1}) =
+(x_1^k, x_2^k) + [- \eta (\nabla f)^t ]   
+\end{equation}
+which will reduce the function value $f$. 
+ 
+To verify this, write $f$ in terms of Taylar 
+expansion as follows 
+
+\begin{equation}
+f(x_1,x_2) \simeq f(a,b) + 
+\frac{ \partial f} { \partial x_1 } (x_1 - a) 
++
+\frac{ \partial f} { \partial x_2 } (x_2 - b)  
+\end{equation}
+use simplified notation for the partial derivative
+$f_{x_1}$ and $f_{x_2}$, we have 
+\begin{equation}
+f(x_1,x_2) \simeq f(a,b) + 
+f_{x_1}(a,b) * (x_1 - a) 
++
+f_{x_2}(a,b) * (x_2 - b)  
+\end{equation}
+
+we want to update $(x_1^k, x_2^k)$ to 
+$(x_1^{k+1}, x_2^{k+1})$ such that
+$f(x_1^{k+1}, x_2^{k+1}) < f(x_1^k, x_2^k)$. 
+From equation (6), replace  
+$(x_1, x_2)$ by $(x_1^{k+1}, x_2^{k+1})$, and 
+let $(x_1^k, x_2^k) = (a,b)$, so we have  
+ 
+\begin{equation}
+f(x_1,x_2) - f(a,b) \simeq  
+f_{x_1}(a,b) * (x_1 - a) 
++
+f_{x_2}(a,b) * (x_2 - b) 
+\end{equation}
+Or, 
+\begin{equation}
+f(x_1,x_2) - f(a,b)
+= (x_1 - a, x_2 - b) 
+\left(\begin{array}{c} 
+f_{x_1}(a,b) \\ 
+f_{x_2}(a,b) \\ 
+\end{array}\right)
+\end{equation}
+Which can be written as 
+\begin{equation}
+f(x_1,x_2) - f(a,b)
+=(x_1 - a, x_2 - b) \nabla f 
+\end{equation}
+
+Based on the notion in Claim 1, let
+\begin{equation}
+\Delta x_1 = x_1 - a = -f_{x_1}  , 
+\Delta x_2 = x_2 - b = -f_{x_2} 
+\end{equation}
+hence, we have 
+\begin{equation}
+f(x_1,x_2) - f(a,b)
+=(\Delta x_1, \Delta x_2) \nabla f
+=-(f_{x_1}^2 + f_{x_1}^2) 
+\end{equation}
+So appearently, 
+\begin{equation}
+f(x_1,x_2) - f(a,b) 
+=-(f_{x_1}^2 + f_{x_1}^2) < 0  
+\end{equation}
+which shows the error function satisfies 
+\begin{equation}
+f(x_1,x_2) < f(a,b)   
+\end{equation}
+e.g, 
+\begin{equation}
+f(x_1^{k+1}, x_2^{k+1}) < f(x_1^k, x_2^k). 
+\end{equation}
+
+\section{Conclusion}
+%Section 5
+In this lecture note,  we describe the basic concept of 
+gradient and we have noted that 
+The negative gradient -$\nabla f$ follows
+the direction of steepest descent. 
+
+\section*{Acknowledgment}
+The author would like to thank Kevin Lee for the 
+discussion on gradient descent algorithm while on their
+way back from Berkeley, California to his office.  
+ 
+\begin{thebibliography}{1}
+
+%\bibitem{IEEEhowto:kopka}
+%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+
+\bibitem{[1]} Gradient and partial derivatives,  
+https://www.khanacademy.org/math/ multivariable-calculus/
+multivariable-derivatives/ partial-derivative-and-gradient-
+articles/a/the-gradient
+
+\bibitem{[2]} Neural Networks, An Introduction, by 
+B. Muller and J. Reinhardt, Springer-Verlag, 1990. 
+
+\bibitem{[3]}  
+Juliani, A., Berges, V., Teng, E., Cohen, A., Harper, J., Elion, C., Goy, C.,
+Gao, Y., Henry, H., Mattar, M., Lange, D. (2020). Unity: A General Platform for
+Intelligent Agents. _arXiv preprint
+[arXiv:1809.02627](https://arxiv.org/abs/1809.02627)._
+https://github.com/Unity-Technologies/ml-agents. 
+ 
+
+\end{thebibliography}
+
+% that's all folks
+\end{document}
+
+
